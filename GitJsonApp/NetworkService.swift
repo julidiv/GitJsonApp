@@ -6,7 +6,14 @@
 //
 
 import Foundation
+import Alamofire
 class NetworkService {
+    
+    enum Link: String {
+        
+        case url = "https://openlibrary.org/books/OL7353617M.json"
+    }
+    
     func reguest(url: String, completion: @escaping (Result<SearchBook, Error>) -> Void) {
         guard let urlString = URL(string: url) else { return }
         URLSession.shared.dataTask(with: urlString) { data, response, error in
@@ -30,5 +37,20 @@ class NetworkService {
             
         }.resume()
         
+        func fetchBooks() {
+            AF.request(Link.url.rawValue)
+                .validate()
+                .responseJSON { dataResponse in
+                    switch dataResponse.result {
+                    case .success( let value) :
+                        let books = Books.getBooks(from: value)
+                        completion(.success(books))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                    
+                    
+                }
+        }
     }
 }

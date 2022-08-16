@@ -5,15 +5,14 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftUI
 
 class ViewController: UIViewController {
-    let networkServise = NetworkService()
-    var searceBook: SearchBook? = nil
-    
-    
     @IBOutlet var table: UITableView!
     var search = UISearchController(searchResultsController: nil)
-    
+    let networkServise = NetworkService()
+    var searceBook: SearchBook? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +53,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         list.textLabel?.text = name?.name
         return list
     }
+ 
 }
 
 extension ViewController: UISearchBarDelegate {
@@ -68,9 +68,11 @@ extension ViewController: UISearchBarDelegate {
             case .failure(let error):
                 print(error)
             }
-            
+          
+                
+            }
         }
         
     }
-}
+
 
